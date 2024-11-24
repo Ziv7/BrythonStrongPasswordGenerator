@@ -80,70 +80,69 @@
     <h2>Your Strong Password:</h2>
     <p id="password"></p>
 
-    <script type="text/python">
-	#################################################
-	##
-	## Auth: Ziv7
-	##
-	## Desc: Generates a strong password based on the specified length.
-	##	 This implementation utilizes Brython to execute Python directly in the browser through a CDN.
-	##
-	#################################################
-        from browser import document
-        import random
-        import string
+<script type="text/python">
+#################################################
+##
+## Auth: Ziv7
+##
+## Desc: Generates a strong password based on the specified length.
+##       This implementation utilizes Brython to execute Python directly in the browser through a CDN.
+##
+#################################################
+from browser import document
+import random
+import string
 
-        # Function to return a random lowercase character
-        def lowercase_char():
-            return random.choice(string.ascii_lowercase)
+# Function to return a random lowercase character
+def lowercase_char():
+    return random.choice(string.ascii_lowercase)
 
-        # Function to return a random uppercase character
-        def uppercase_char():
-            return random.choice(string.ascii_uppercase)
+# Function to return a random uppercase character
+def uppercase_char():
+    return random.choice(string.ascii_uppercase)
 
-        # Function to return a random digit
-        def digits_char():
-            return random.choice(string.digits)
+# Function to return a random digit
+def digits_char():
+    return random.choice(string.digits)
 
-        # Function to return a random punctuation character
-        def punctuation_char():
-            # Define a limited set of punctuation characters
-            allowed_punctuation = "!@#$%^&*()"
-            return random.choice(allowed_punctuation)
+# Function to return a random punctuation character
+def punctuation_char():
+    allowed_punctuation = "!@#$%^&*()"
+    return random.choice(allowed_punctuation)
 
-        # Function to create the core of the strong password
-        def strong_password_core(length):
-            core_chars = [uppercase_char(), lowercase_char(), digits_char(), punctuation_char()]
-            core_indexes = random.sample(range(length), len(core_chars))
-            password_core = [None] * length
-            
-            for i, index in enumerate(core_indexes):
-                password_core[index] = core_chars[i]
-            
-            return password_core
+# Function to create the core of the strong password
+def strong_password_core(length):
+    core_chars = [uppercase_char(), lowercase_char(), digits_char(), punctuation_char()]
+    core_indexes = random.sample(range(length), len(core_chars))
+    password_core = [None] * length
+    
+    for i, index in enumerate(core_indexes):
+        password_core[index] = core_chars[i]
+    
+    return password_core
 
-        # Function to wrap the password core and fill the remaining characters
-        def strong_password_core_wrap(password_core):
-            for i in range(len(password_core)):
-                if password_core[i] is None:
-                    password_core[i] = random.choice([uppercase_char(), lowercase_char(), digits_char(), punctuation_char()])
-            return "".join(password_core)
+# Function to wrap the password core and fill the remaining characters
+def strong_password_core_wrap(password_core):
+    for i in range(len(password_core)):
+        if password_core[i] is None:
+            password_core[i] = random.choice([uppercase_char(), lowercase_char(), digits_char(), punctuation_char()])
+    return "".join(password_core)
 
-        # Function to generate password when the button is clicked
-        def generate_password(event):
-            try:
-                length = int(document["length"].value)
-                if length < 4 or length > 300:
-                    document["password"].text = "Please enter a length between 4 and 300."
-                else:
-                    password_core = strong_password_core(length)
-                    password = strong_password_core_wrap(password_core)
-                    document["password"].text = password
-            except ValueError:
-                document["password"].text = "Please enter a valid number."
+# Function to generate password when the button is clicked
+def generate_password(event):
+    try:
+        length = int(document["length"].value)
+        if length < 4 or length > 300:
+            document["password"].text = "Please enter a length between 4 and 300."
+        else:
+            password_core = strong_password_core(length)
+            password = strong_password_core_wrap(password_core)
+            document["password"].text = password
+    except ValueError:
+        document["password"].text = "Please enter a valid number."
 
-        # Set up event listener for password generation button
-        document["generate"].bind("click", generate_password)
-    </script>
+# Set up event listener for password generation button
+document["generate"].bind("click", generate_password)
+</script>
 </body>
 </html>
